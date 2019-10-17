@@ -7,6 +7,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.CollectionUtils;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -20,6 +25,43 @@ public class CategoryController {
     @Autowired
     private CategoryService categoryService;
 
+    
+    
+    /**
+     * 新增商品分类
+     * @param category
+     * @return
+     */
+    @PostMapping
+    public ResponseEntity<Void> saveCategory(Category category){
+        categoryService.saveCategory(category);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+    
+    /**
+     * 修改商品分类
+     * @param category
+     * @return
+     */
+    @PutMapping
+    public ResponseEntity<Void> updateCategory(Category category){
+        categoryService.updateCategory(category);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+    
+    
+    /**
+     * 删除商品分类
+     * @param id
+     * @return
+     */
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delCategory(@PathVariable("id") Long id){
+        categoryService.delCategory(id);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+    
+    
     /**
      * 根据parentId查询类目
      * 
@@ -47,5 +89,14 @@ public class CategoryController {
         }
         // 响应500
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+    }
+    
+    @GetMapping("bid/{bid}")
+    public ResponseEntity<List<Category>> queryByBrandId(@PathVariable("bid") Long bid) {
+        List<Category> list = this.categoryService.queryByBrandId(bid);
+        if (list == null || list.size() < 1) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return ResponseEntity.ok(list);
     }
 }

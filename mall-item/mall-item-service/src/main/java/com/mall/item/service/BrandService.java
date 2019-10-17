@@ -60,4 +60,26 @@ public class BrandService {
     }
     
     
+    @Transactional
+    public void updateBrand(Brand brand, List<Long> cids) {
+        // 新增品牌信息
+        this.brandMapper.updateByPrimaryKey(brand);
+        // 删除品牌和分类中间表
+        this.brandMapper.deleteCategoryBrand(brand.getId());
+        // 重新插入品牌和分类中间表
+        for (Long cid : cids) {
+            this.brandMapper.insertCategoryBrand(cid, brand.getId());
+        }
+    }
+    
+    
+    @Transactional
+    public void deleteBrand(long bid) {
+        // 新增品牌信息
+        this.brandMapper.deleteByPrimaryKey(bid);
+        // 删除品牌和分类中间表
+        this.brandMapper.deleteCategoryBrand(bid);
+    }
+    
+    
 }
