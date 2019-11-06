@@ -29,29 +29,7 @@ import com.mall.item.service.BrandService;
     @Autowired
     private BrandService brandService;
     
-     /**
-      * 
-      * 分页获取商标信息
-     * @param page
-     * @param rows
-     * @param sortBy
-     * @param desc
-     * @param key
-     * @return
-     */
-    @GetMapping("page")
-     public ResponseEntity<PageResult<Brand>> queryBrandByPage(
-             @RequestParam(value = "page", defaultValue = "1") Integer page,
-             @RequestParam(value = "rows", defaultValue = "5") Integer rows,
-             @RequestParam(value = "sortBy", required = false) String sortBy,
-             @RequestParam(value = "desc", defaultValue = "false") Boolean desc,
-             @RequestParam(value = "key", required = false) String key) {
-         PageResult<Brand> result = this.brandService.queryBrandByPageAndSort(page,rows,sortBy,desc, key);
-       /*  if (result == null || result.getItems().size() == 0) {
-             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-         }*/
-         return ResponseEntity.ok(result);
-     }
+    
     
     /**
      * 新增商标信息
@@ -88,5 +66,40 @@ import com.mall.item.service.BrandService;
         return new ResponseEntity<>(HttpStatus.OK);
     }
     
+    
+    /**
+     * 根据分类获取品牌信息
+     * @return
+     */
+    @GetMapping("/cid/{cid}")
+    public ResponseEntity<List<Brand>> queryBrandByCid(@PathVariable("cid")Long cid){
+        return ResponseEntity.ok(this.brandService.queryBrandByCategoryId(cid));
+    }
+    
+    
+    
+    /**
+     * 
+     * 分页获取品牌信息
+    * @param page
+    * @param rows      
+    * @param sortBy
+    * @param desc
+    * @param key
+    * @return
+    */
+   @GetMapping("page")
+    public ResponseEntity<PageResult<Brand>> queryBrandByPage(
+            @RequestParam(value = "page", defaultValue = "1") Integer page,
+            @RequestParam(value = "rows", defaultValue = "5") Integer rows,
+            @RequestParam(value = "sortBy", required = false) String sortBy,
+            @RequestParam(value = "desc", defaultValue = "false") Boolean desc,
+            @RequestParam(value = "key", required = false) String key) {
+        PageResult<Brand> result = this.brandService.queryBrandByPageAndSort(page,rows,sortBy,desc, key);
+      /*  if (result == null || result.getItems().size() == 0) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }*/
+        return ResponseEntity.ok(result);
+    }
      
 }

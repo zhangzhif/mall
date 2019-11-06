@@ -9,6 +9,8 @@ import org.springframework.transaction.annotation.Transactional;
 import com.mall.item.mapper.CategoryMapper;
 import com.mall.item.pojo.Category;
 
+import tk.mybatis.mapper.entity.Example;
+
 @Service
 public class CategoryService {
 
@@ -64,4 +66,13 @@ public class CategoryService {
     public List<Category>  queryByBrandId(Long bid){
         return this.categoryMapper.queryByBrandId(bid);
     }
+    
+    
+    public List<Category> queryByIds(List<Long> ids){
+        Example example = new Example(Category.class);
+        example.createCriteria().andIn("id", ids);
+        return this.categoryMapper.selectByExample(example);
+    }
+    
+    
 }

@@ -1,9 +1,12 @@
  package com.mall.item.mapper;
 
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
 
 import com.mall.item.pojo.Brand;
 
@@ -22,4 +25,7 @@ public interface BrandMapper extends Mapper<Brand>{
     
     @Delete("DELETE FROM tb_category_brand WHERE brand_id = #{bid}")
     int deleteCategoryBrand(@Param("bid") Long bid);
+    
+    @Select("SELECT b.* FROM tb_brand b LEFT JOIN tb_category_brand cb ON b.id = cb.brand_id WHERE cb.category_id = #{cid}")
+    List<Brand> queryByCategoryId(@Param("cid") Long cid);
 }

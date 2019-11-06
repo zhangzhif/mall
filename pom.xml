@@ -92,5 +92,6 @@
 		<module>mall-item</module>
 		<module>mall-common</module>
 		<module>mall-upload</module>
+		<module>mall-search</module>
 	</modules>
 </project>
