@@ -1,0 +1,21 @@
+server:
+  port: 8083
+spring:
+  application: 
+    name: search-service
+  data:
+    elasticsearch:
+      cluster-name: elasticsearch
+      cluster-nodes: 122.51.199.82:9200
+ 
+eureka: 
+  client:
+    service-url:
+      defaultZone: http://172.16.8.49:10086/eureka
+  instance:
+    lease-renewal-interval-in-seconds: 5 # 每隔5秒发送一次心跳
+    lease-expiration-duration-in-seconds: 10 # 10秒不发送就过期
+    prefer-ip-address: true
+    ip-address: 172.16.7.228
+    instance-id: ${spring.application.name}:${server.port}
+    
